@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function App() {
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState("");
+
+  const calculate = async () => {
+    try {
+      const response = await axios.post("/api/add", { numbers: input });
+      setResult(response.data.result);
+    } catch (error) {
+      setResult(error.response.data.error);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>String Calculator</h1>
+      <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Enter numbers" />
+      <button onClick={calculate}>Calculate</button>
+      <p>Result: {result}</p>
     </div>
   );
 }
