@@ -6,7 +6,13 @@ const { add } = require('./stringCalculator');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+    cors({
+      origin: '*', // Allow all origins
+      methods: 'GET,POST', // Allowed HTTP methods
+      credentials: true, // Allow cookies if necessary
+    })
+  );
 
 app.post('/api/add', (req, res) => {
   try {
