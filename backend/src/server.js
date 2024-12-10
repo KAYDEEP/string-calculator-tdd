@@ -1,28 +1,27 @@
-// src/server.js
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-const { add } = require('./stringCalculator');
 
 const app = express();
-app.use(bodyParser.json());
-app.use(
-    cors({
-      origin: '*', // Allow all origins
-      methods: 'GET,POST', // Allowed HTTP methods
-      credentials: true, // Allow cookies if necessary
-    })
-  );
+const PORT = process.env.PORT || 3001;
 
+// CORS configuration
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'OPTIONS'], // Allow methods
+  allowedHeaders: ['Content-Type'], // Allow headers
+}));
+
+// Parse JSON bodies
+app.use(express.json());
+
+// Example API endpoint
 app.post('/api/add', (req, res) => {
-  try {
-    const result = add(req.body.numbers);
-    res.json({ result });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+  const { numbers } = req.body;
+  const sum = numbers.reduce((acc, num) => acc + num, 0);
+  res.json({ sum });
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
-
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
