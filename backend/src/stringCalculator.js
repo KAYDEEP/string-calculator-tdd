@@ -1,5 +1,6 @@
 function add(numbers) {
-    if (!numbers) return 0; // Step 1: Handle empty string
+    if (numbers === "") return 0;
+    return parseInt(numbers, 10);
   }
   
   module.exports = { add };
