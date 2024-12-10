@@ -7,7 +7,7 @@ function App() {
 
   const calculate = async () => {
     try {
-      const response = await axios.post("/api/add", { numbers: input });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/add`, { numbers: input });
       setResult(response.data.result);
     } catch (error) {
       setResult(error.response.data.error);

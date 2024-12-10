@@ -1,12 +1,14 @@
 // src/server.js
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { add } = require('./stringCalculator');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
-app.post('/add', (req, res) => {
+app.post('/api/add', (req, res) => {
   try {
     const result = add(req.body.numbers);
     res.json({ result });
@@ -15,4 +17,6 @@ app.post('/add', (req, res) => {
   }
 });
 
-app.listen(3001, () => console.log('Server running on port 3001'));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+
